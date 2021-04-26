@@ -1,0 +1,133 @@
+body {
+  background: rgb(241, 233, 226);
+}
+
+#menuboard {
+  background: rgb(3, 30, 51);
+  height: 350px;
+  position: relative;
+}
+
+#light {
+  position: absolute;
+  top: -40%;
+  left: 70%;
+  transform-origin: 50% 0%;
+  animation: lightrotate 2s ease-in-out infinite;
+}
+
+@keyframes lightrotate {
+  0% {
+    transform: rotate(8deg);
+  }
+
+  50% {
+    transform: rotate(-2deg);
+  }
+
+  100% {
+    transform: rotate(8deg);
+  }
+}
+
+#btn-start {
+  color: white;
+  padding: 10px;
+  border-radius: 100rem;
+  border: 2px solid white;
+  background-color: transparent;
+  position: absolute;
+  top: 70%;
+  left: 78%;
+  cursor: pointer;
+}
+
+#menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.coffee {
+  width: 95px;
+  height: 80px;
+  border: 1px solid rgb(246, 236, 189);
+  border-radius: 5px;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  left: 12%;
+  z-index: 20;
+}
+.mainpic {
+  position: absolute;
+  top: 20%;
+  left: 2%;
+}
+#scorelist_bg {
+  position: fixed;
+  transform: translate(220%, -20%);
+  /* top: 50%;
+  left: 74%; */
+}
+#scorelist {
+  color: white;
+  font-family: "微軟正黑體";
+  font-size: 14px;
+  position: fixed;
+  transform: translate(755%, -15%);
+  /* top: 55%;
+  left: 78%; */
+}
+#consumerline {
+  width: 120px;
+  height: 180px;
+  position: absolute;
+  top: 28%;
+  left: 6%;
+}
+
+#conversation {
+  width: 163px;
+  height: 95px;
+  background-image: url(./images/conver.png);
+  background-size: cover;
+  position: absolute;
+  top: 15%;
+}
+
+.animate__animated.animate__bounceInLeft {
+  --animate-duration: 2.5s;
+}
+
+#text-order {
+  width: 100px;
+  height: 90%;
+  word-wrap: break-word;
+  color: rgb(209, 95, 54);
+  font-weight: bold;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  position: absolute;
+  transform: translate(25%, 25%);
+}
+
+.aliceblue {
+  background: aliceblue;
+}
+
+.aliceblue {
+  background-color: aliceblue;
+}
+.blue {
+  background-color: blue;
+}
+
+.animate__animated.animate__fadeInLeft {
+  --animate-duration: 2.5s;
+}

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body>
+    <div id="menuboard">
+        <div id="main">
+            <div class="logo"><img src="./images/logo.png" width="80px"></div>
+            <div class="mainpic"><img src="./images/mainpic.png" width="110%"></div>
+        </div>
+
+        <table id="menu">
+            <tr>
+                <td class="coffee" id="Americano" style="text-align: center;"><img src="./images/coffee01.png"
+                        height="70px"></td>
+                <td class="coffee" id="Latte" style="text-align: center;"><img src="images/coffee02.png" height="70px">
+                </td>
+                <td class="coffee" id="Macchiato" style="text-align: center;"><img src="images/coffee03.png"
+                        height="70px"></td>
+                <td class="coffee" id="Irish" style="text-align: center;"><img src="images/coffee04.png" height="70px">
+                </td>
+            </tr>
+            <tr>
+                <td class="coffee" id="Cappuccino" style="text-align: center;"><img src="images/coffee05.png"
+                        height="70px"></td>
+                <td class="coffee" id="Affogato" style="text-align: center;"><img src="images/coffee06.png"
+                        height="70px"></td>
+                <td class="coffee" id="Frappe" style="text-align: center;"><img src="images/coffee07.png" height="70px">
+                </td>
+                <td class="coffee" id="Mocha" style="text-align: center;"><img src="images/coffee08.png" height="70px">
+                </td>
+            </tr>
+            <tr>
+                <td class="coffee" id="WhiteCoffee" style="text-align: center;"><img src="images/coffee09.png"
+                        height="70px"></td>
+                <td class="coffee" id="CaramelCoffee" style="text-align: center;"><img src="images/coffee10.png"
+                        height="70px"></td>
+                <td class="coffee" id="Espresso" style="text-align: center;"><img src="images/coffee11.png"
+                        height="70px"></td>
+                <td class="coffee" id="Frapuccino" style="text-align: center;"><img src="images/coffee12.png"
+                        height="70px"></td>
+            </tr>
+        </table>
+
+        <div id="light"><img src="./images/light.png"></div>
+        <input type="button" value="START ORDER" id="btn-start"><br>
+    </div>
+    <div id="scorelist_bg">
+        <img src="images/board.png" width="70%">
+    </div>
+    <div id="scorelist">
+        還剩<span id="text-countdown">10</span>秒<br>
+        目前製作<span id="text-score">0</span>杯
+        <hr>
+        <span style="font-size: 10px; color: rgb(212, 212, 129);">The Highest Record</span><br>
+        玩家：<span id="highscore-player">-</span><br>
+        分數：<span id="highscore-score">-</span>杯
+    </div>
+    <div id="consumerline" class="animate__animated animate__fadeInLeft animate__infinite" style="display: none;">
+        <!-- <img src="./images/conline.gif" class="consumers"> -->
+        <img id="consumers" class="consumers">
+    </div>
+
+    <div id="conversation" class="animate__animated animate__bounceInLeft animate__infinite" style="display: none;">
+        <span id="text-order" class="textorder">hi~</span>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        const btnStart = document.getElementById('btn-start')
+        const coffee = document.getElementsByClassName('coffee')
+        const textCountdown = document.getElementById('text-countdown')
+        const textScore = document.getElementById('text-score')
+        const textHighScorePlayer = document.getElementById('highscore-player')
+        const textHighScore = document.getElementById('highscore-score')
+        const textOrder = document.getElementById('text-order')
+        const conSumer = document.getElementById('consumerline')
+        const converSation = document.getElementById('conversation')
+        const visitor = document.getElementById('consumers')
+
+        const audio = new Audio()
+        audio.src = './[No Copyright Music] 샛별 - Tea Time [ bgm funny cute ].mp3'
+
+        const audio2 = new Audio()
+        audio2.src = './corect.music.mp3'
+
+        let score = 0
+        let timer = 0
+        let countdown = 10
+
+        let highscore = { name: '', score: 0 }
+        const highStorage = JSON.parse(localStorage.getItem('cafe'))
+        if (highStorage !== null) {
+            highscore = highStorage
+            textHighScorePlayer.innerText = highscore.name
+            textHighScore.innerText = highscore.score
+        }
+
+        btnStart.onclick = () => {
+            conSumer.style.display = 'block' // 客人進來
+            converSation.style.display = 'block' // 點餐框跳出
+            conSumer.style.animationPlayState = 'running'; // 客人動畫開始
+            converSation.style.animationPlayState = 'running'; // 點餐動畫開始
+            btnStart.disabled = true
+            score = 0
+            textScore.innerText = score
+            countdown = 10
+            textCountdown.innerText = countdown
+
+            timer = setInterval(game, 2500)
+            game()
+        }
+
+
+        const game = () => {
+
+            let vistnum = Math.floor(Math.random() * 3) + 1 //隨機抓客人
+            visitor.src = './images/con0' + vistnum + '.png'; //顯示客人
+            audio.play()
+            // 倒數計時
+            countdown--
+            textCountdown.innerText = countdown
+
+            if (countdown <= 0) {
+                clearInterval(timer)
+                Swal.fire({
+                    icon: 'info',
+                    title: '時間到',
+                    text: `你得到 ${score} 分`
+                })
+
+                btnStart.disabled = false
+                conSumer.style.display = 'none' // 客人隱藏
+                converSation.style.display = 'none' // 點餐框隱藏
+                conSumer.style.animationPlayState = 'paused'; // 客人動畫暫停
+                converSation.style.animationPlayState = 'paused';// 點餐動畫暫停
+                //audio.remove()
+
+                if (score > highscore.score) {
+                    highscore.score = score
+                    highscore.name = prompt('最高分! 請輸入名字')
+                    if (highscore.name === null || highscore.name.length === 0) {
+                        highscore.name = '路人'
+                    }
+                    textHighScorePlayer.innerText = highscore.name
+                    textHighScore.innerText = highscore.score
+                    localStorage.setItem('cafe', JSON.stringify(highscore))
+                }
+            }
+
+
+            // 隨機點餐
+            let optionsArr = ["Americano", "Latte", "Macchiato", "Irish", "Cappuccino", "Affogato", "Frappe", "Mocha", "WhiteCoffee", "CaramelCoffee", "Espresso", "Frapuccino"]
+
+            consumerorder = random(2, optionsArr)
+            textOrder.innerText = consumerorder
+
+            function random(num, arr) {
+                let textOrder = []
+                for (let i = 0; i < num; i++) {
+                    let n = Math.floor(Math.random() * optionsArr.length)
+                    textOrder.push(optionsArr[n])
+                    //optionsArr.splice(n, 1)
+                }
+                return textOrder + ""
+            }
+            // 將字串分開再轉陣列
+            const sepcoffee = textOrder.innerText.split(',');
+
+            // 確認符合的值
+            for (const cafe of coffee) {
+                cafe.onclick = () => {
+
+                    // 跑陣列內所有值
+                    for (let j = 0; j < 2; j++) {
+                        if (cafe.id == sepcoffee[j]) {
+                            audio2.play()
+                            cafe.onclick = 1
+                            score++
+                        }
+                    }
+                    textScore.innerText = score
+                }
+            }
+
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>
